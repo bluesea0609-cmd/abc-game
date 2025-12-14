@@ -1,0 +1,20 @@
+body {
+  text-align: center;
+  font-family: Arial;
+  background: #fff8dc;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+#letters button {
+  font-size: 30px;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 15px;
+  border: none;
+  background: #ff9800;
+  color: white;
+}
+
