@@ -1,0 +1,16 @@
+{
+  "name": "English Kids App",
+  "short_name": "English",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#fff8dc",
+  "theme_color": "#ff9800",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2202/2202112.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+
