@@ -2,17 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>English Fun</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="manifest" href="manifest.json">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Kids Game</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>🎈 Learn English ABC</h1>
-<p>Tap and Listen 🔊</p>
-<div id="letters"></div>
-<button onclick="startQuiz()">🎮 Quiz Time</button>
+
+<div class="header">
+  <h1>🌟 English Game 🌟</h1>
+  <div id="score-board">Score: <span id="score">0</span> 🏆</div>
+</div>
+
+<div class="controls">
+  <button onclick="startReview()" class="mode-btn" style="background:#4CAF50">📖 Study Mode</button>
+  <button onclick="startGame()" class="mode-btn" style="background:#ff9800">🎮 Play Game</button>
+</div>
+
+<div id="message">Tap "Play Game" to start!</div>
+<div id="game-area"></div>
+
 <script src="app.js"></script>
 </body>
 </html>
-
+a
