@@ -1,45 +1,64 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Phonics Magic</title>
+<title>Phonics Magic Game</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div id="start-screen">
-    <h1>🌟 Phonics Magic 🌟</h1>
-    <p>萬能翻譯拼字機</p>
-    <button onclick="enterApp()" class="btn-start">🚀 開始學習</button>
+    <h1>🏆 英文拼字大冒險 🏆</h1>
+    <p>收集星星，解鎖新關卡！</p>
+    
+    <div class="level-container">
+      <button onclick="startGame(1)" id="lvl-1" class="lvl-btn unlocked">第 1 關<br>⭐⭐⭐</button>
+      <button onclick="startGame(2)" id="lvl-2" class="lvl-btn locked">第 2 關<br>🔒</button>
+      <button onclick="startGame(3)" id="lvl-3" class="lvl-btn locked">第 3 關<br>🔒</button>
+      <button onclick="startGame(4)" id="lvl-4" class="lvl-btn locked">第 4 關<br>🔒</button>
+      <button onclick="startGame(5)" id="lvl-5" class="lvl-btn locked">魔王關<br>💀</button>
+    </div>
+
+    <button onclick="enterFreeMode()" class="btn-free">📖 自由練習模式</button>
+    <button onclick="resetProgress()" class="btn-reset">🔄 重置進度</button>
   </div>
 
   <div id="main-app" style="display:none;">
     <div class="container">
       
+      <div class="game-stats">
+        <button onclick="goHome()" class="btn-home">🏠 回地圖</button>
+        <div class="score-board">分數: <span id="score-val">0</span></div>
+        <div class="lives">❤️❤️❤️</div>
+      </div>
+
       <div class="screen-box">
         <div id="display-word" class="word-display">_</div>
         <div id="display-ipa" class="ipa-display"></div>
-        
         <div class="sentence-box">
             <div id="display-sentence" class="sent-en"></div>
             <div id="display-sent-zn" class="sent-zn"></div>
         </div>
       </div>
 
+      <div id="message">準備挑戰！</div>
+
       <div class="action-area">
-        <button onclick="speakWord()" class="btn-play">🔊 唸給我聽</button>
-        <button onclick="clearWord()" class="btn-clear">🗑️ 全部清除</button>
+        <button onclick="speakWord()" class="btn-play">🔊 聽題目</button>
+        <button onclick="clearWord()" class="btn-clear">🗑️ 重拼</button>
+        <button onclick="checkAnswer()" class="btn-submit">✅ 確定</button>
       </div>
-      
-      <div class="action-area">
-         <button onclick="startChallenge()" class="btn-challenge">🎮 聽音拼字挑戰</button>
-      </div>
-      <div id="message"></div>
 
       <div id="keyboard"></div>
     </div>
+  </div>
+
+  <div id="win-screen" style="display:none;">
+    <h1>🎉 恭喜過關！ 🎉</h1>
+    <div style="font-size:50px;">⭐⭐⭐</div>
+    <p>你太厲害了！下一關已解鎖！</p>
+    <button onclick="goHome()" class="btn-start">繼續冒險</button>
   </div>
 
 <script src="app.js"></script>
