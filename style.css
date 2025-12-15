@@ -4,18 +4,19 @@ body {
   text-align: center;
   margin: 0;
   padding: 10px;
-  user-select: none; /* 防止連點選取文字 */
+  user-select: none;
 }
 h1 { color: #558b2f; margin: 10px 0; font-size: 24px; }
 
 .screen-box {
   background: white;
   margin: 10px auto;
-  padding: 15px;
+  padding: 10px;
   border-radius: 15px;
   border: 4px solid #8bc34a;
-  min-height: 60px;
+  min-height: 80px; /* 拉高一點 */
   display: flex;
+  flex-direction: column; /* 讓字由上往下排 */
   align-items: center;
   justify-content: center;
   box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
@@ -26,6 +27,16 @@ h1 { color: #558b2f; margin: 10px 0; font-size: 24px; }
   font-weight: bold;
   color: #333;
   letter-spacing: 2px;
+  line-height: 1.2;
+}
+
+/* 音標的樣式 */
+.ipa-display {
+  font-size: 20px;
+  color: #888; /* 灰色 */
+  font-family: "Lucida Sans Unicode", sans-serif;
+  min-height: 25px;
+  margin-top: 5px;
 }
 
 .action-area {
@@ -54,7 +65,7 @@ button:active { transform: translateY(4px); box-shadow: none; }
 
 #keyboard {
   display: grid;
-  grid-template-columns: repeat(6, 1fr); /* 一排6個 */
+  grid-template-columns: repeat(6, 1fr);
   gap: 8px;
   max-width: 500px;
   margin: 0 auto;
@@ -70,8 +81,4 @@ button:active { transform: translateY(4px); box-shadow: none; }
   border-bottom: 4px solid #ccc;
   cursor: pointer;
 }
-.key:active {
-  background: #e1f5fe;
-  border-bottom: 0;
-  transform: translateY(4px);
-}
+.key:active { background: #e1f5fe; border-bottom: 0; transform: translateY(4px); }
