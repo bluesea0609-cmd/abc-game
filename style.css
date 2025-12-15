@@ -1,107 +1,77 @@
-// 這裡有圖案(Emoji)、英文單字
-const data = [
-  { text: "Apple", icon: "🍎" },
-  { text: "Ball", icon: "⚽" },
-  { text: "Cat", icon: "🐱" },
-  { text: "Dog", icon: "🐶" },
-  { text: "Egg", icon: "🥚" },
-  { text: "Fish", icon: "🐟" },
-  { text: "Goat", icon: "🐐" },
-  { text: "Hat", icon: "🎩" },
-  { text: "Ice", icon: "🧊" },
-  { text: "Juice", icon: "🧃" }
-];
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f4c3;
+  text-align: center;
+  margin: 0;
+  padding: 10px;
+  user-select: none; /* 防止連點選取文字 */
+}
+h1 { color: #558b2f; margin: 10px 0; font-size: 24px; }
 
-let score = 0;
-let isGameMode = false;
-let currentTarget = null;
-const gameArea = document.getElementById("game-area");
-const msgDisplay = document.getElementById("message");
-const scoreDisplay = document.getElementById("score");
-
-// 發音功能
-function speak(text) {
-  // 先取消之前的發音，避免重疊
-  window.speechSynthesis.cancel();
-  const msg = new SpeechSynthesisUtterance(text);
-  msg.lang = "en-US";
-  window.speechSynthesis.speak(msg);
+.screen-box {
+  background: white;
+  margin: 10px auto;
+  padding: 15px;
+  border-radius: 15px;
+  border: 4px solid #8bc34a;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
 }
 
-// 1. 學習模式 (Study Mode)
-function startReview() {
-  isGameMode = false;
-  score = 0;
-  updateScore();
-  msgDisplay.innerText = "Tap card to learn! 🔊";
-  renderCards();
-  speak("Let's learn!");
+.word-display {
+  font-size: 40px;
+  font-weight: bold;
+  color: #333;
+  letter-spacing: 2px;
 }
 
-// 2. 遊戲模式 (Game Mode)
-function startGame() {
-  isGameMode = true;
-  score = 0;
-  updateScore();
-  renderCards();
-  nextQuestion();
+.action-area {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
-function nextQuestion() {
-  // 隨機選一個單字當題目
-  const randomIndex = Math.floor(Math.random() * data.length);
-  currentTarget = data[randomIndex];
-  
-  msgDisplay.innerText = `Find: ${currentTarget.text} ❓`;
-  speak(`Where is the ${currentTarget.text}?`);
+button {
+  border: none;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  color: white;
+  box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+}
+button:active { transform: translateY(4px); box-shadow: none; }
+
+.btn-play { background: #2196f3; width: 60%; }
+.btn-clear { background: #f44336; }
+.btn-challenge { background: #ff9800; width: 100%; font-weight: bold;}
+
+#message { height: 24px; color: #ff5722; font-weight: bold; margin-bottom: 5px; }
+
+#keyboard {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 一排6個 */
+  gap: 8px;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
-function renderCards() {
-  gameArea.innerHTML = "";
-  data.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "card";
-    // 卡片上直接顯示圖案和單字
-    card.innerHTML = `<div>${item.icon}</div><div>${item.text}</div>`;
-    
-    card.onclick = () => {
-      if (isGameMode) {
-        checkAnswer(item);
-      } else {
-        // 學習模式：只唸單字
-        speak(item.text);
-        // 卡片跳動一下
-        card.style.transform = "scale(1.1)";
-        setTimeout(() => card.style.transform = "scale(1)", 200);
-      }
-    };
-    gameArea.appendChild(card);
-  });
+.key {
+  background: white;
+  color: #555;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 15px 0;
+  border-radius: 10px;
+  border-bottom: 4px solid #ccc;
+  cursor: pointer;
 }
-
-function checkAnswer(item) {
-  if (item.text === currentTarget.text) {
-    // 答對了！
-    score += 10;
-    msgDisplay.innerText = "Correct! 🎉";
-    speak("Good job!");
-    updateScore();
-    // 1秒後出下一題
-    setTimeout(nextQuestion, 1000);
-  } else {
-    // 答錯了！
-    score -= 5;
-    if(score < 0) score = 0;
-    msgDisplay.innerText = "Try again! ❌";
-    speak("Oh no, try again.");
-    updateScore();
-  }
+.key:active {
+  background: #e1f5fe;
+  border-bottom: 0;
+  transform: translateY(4px);
 }
-
-function updateScore() {
-  scoreDisplay.innerText = score;
-}
-
-// 一開始先進入學習模式
-startReview();
-    a
