@@ -2,24 +2,31 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>英文闖關遊戲</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Phonics Magic</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="header">
-  <h1>🏆 英文小天才 🏆</h1>
-  <div id="score-board">分數: <span id="score">0</span></div>
-</div>
+<div class="container">
+  <h1>🔤 拼字發音機</h1>
+  
+  <div class="screen-box">
+    <div id="display-word" class="word-display">_</div>
+  </div>
 
-<div class="controls">
-  <button onclick="startReview()" class="mode-btn study">📖 學習模式</button>
-  <button onclick="startGame()" class="mode-btn game">🎮 闖關遊戲</button>
-</div>
+  <div class="action-area">
+    <button onclick="speakWord()" class="btn-play">🔊 唸給我聽</button>
+    <button onclick="clearWord()" class="btn-clear">🗑️ 清除</button>
+  </div>
+  
+  <div class="action-area">
+     <button onclick="startChallenge()" class="btn-challenge">🎮 聽音拼字挑戰</button>
+  </div>
+  <div id="message">點擊字母開始拼字！</div>
 
-<div id="message">載入中...</div>
-<div id="game-area"></div>
+  <div id="keyboard"></div>
+</div>
 
 <script src="app.js"></script>
 </body>
