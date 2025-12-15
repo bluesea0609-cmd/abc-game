@@ -8,26 +8,34 @@
 </head>
 <body>
 
-<div class="container">
-  <h1>🔤 拼字發音機</h1>
-  
-  <div class="screen-box">
-    <div id="display-word" class="word-display">_</div>
-    <div id="display-ipa" class="ipa-display"></div>
+  <div id="start-screen">
+    <h1>🌟 Phonics Magic 🌟</h1>
+    <p>自然發音拼字機</p>
+    <button onclick="enterApp()" class="btn-start">🚀 開始學習</button>
   </div>
 
-  <div class="action-area">
-    <button onclick="speakWord()" class="btn-play">🔊 唸給我聽</button>
-    <button onclick="clearWord()" class="btn-clear">🗑️ 清除</button>
-  </div>
-  
-  <div class="action-area">
-     <button onclick="startChallenge()" class="btn-challenge">🎮 聽音拼字挑戰</button>
-  </div>
-  <div id="message">點擊字母開始拼字！</div>
+  <div id="main-app" style="display:none;">
+    <div class="container">
+      <h1>🔤 拼字發音機</h1>
+      
+      <div class="screen-box">
+        <div id="display-word" class="word-display">_</div>
+        <div id="display-ipa" class="ipa-display"></div>
+      </div>
 
-  <div id="keyboard"></div>
-</div>
+      <div class="action-area">
+        <button onclick="speakWord()" class="btn-play">🔊 唸給我聽</button>
+        <button onclick="clearWord()" class="btn-clear">🗑️ 清除</button>
+      </div>
+      
+      <div class="action-area">
+         <button onclick="startChallenge()" class="btn-challenge">🎮 聽音拼字挑戰</button>
+      </div>
+      <div id="message">點擊字母開始拼字！</div>
+
+      <div id="keyboard"></div>
+    </div>
+  </div>
 
 <script src="app.js"></script>
 </body>
