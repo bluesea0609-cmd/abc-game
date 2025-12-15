@@ -1,78 +1,101 @@
-const data = [
-  { text: "Apple", icon: "🍎" }, { text: "Ball", icon: "⚽" },
-  { text: "Cat", icon: "🐱" }, { text: "Dog", icon: "🐶" },
-  { text: "Egg", icon: "🥚" }, { text: "Fish", icon: "🐟" },
-  { text: "Goat", icon: "🐐" }, { text: "Hat", icon: "🎩" },
-  { text: "Ice", icon: "🧊" }, { text: "Juice", icon: "🧃" },
-  { text: "Kite", icon: "🪁" }, { text: "Lion", icon: "🦁" }
-];
+const display = document.getElementById("display-word");
+const keyboard = document.getElementById("keyboard");
+const msg = document.getElementById("message");
 
-let isGame = false;
-let target = null;
-let score = 0;
-const msgDiv = document.getElementById("message");
-const scoreDiv = document.getElementById("score");
+let currentWord = "";
+let challengeMode = false;
+let challengeAnswer = "";
 
-function speak(txt) {
+// 字母列表
+const letters = "abcdefghijklmnopqrstuvwxyz".split("");
+
+// 1. 產生鍵盤
+letters.forEach(char => {
+  const btn = document.createElement("div");
+  btn.className = "key";
+  btn.innerText = char.toUpperCase(); // 顯示大寫
+  
+  btn.onclick = () => {
+    // 點擊字母時
+    addLetter(char);
+    // 輕輕唸出字母音 (Phonics嘗試)
+    speak(char, 1.5); 
+  };
+  keyboard.appendChild(btn);
+});
+
+// 2. 把字母加到螢幕上
+function addLetter(char) {
+  if (currentWord.length < 12) { // 限制長度
+    currentWord += char;
+    updateScreen();
+  }
+}
+
+// 3. 更新畫面
+function updateScreen() {
+  // 如果是空的顯示底線，否則顯示單字
+  display.innerText = currentWord === "" ? "_" : currentWord;
+  
+  // 如果在挑戰模式，檢查拼對了沒
+  if (challengeMode) {
+    checkSpelling();
+  }
+}
+
+// 4. 清除按鈕
+function clearWord() {
+  currentWord = "";
+  challengeMode = false; // 清除時退出挑戰模式
+  msg.innerText = "自由拼字模式";
+  updateScreen();
+}
+
+// 5. 唸出整個單字 (核心功能)
+function speakWord() {
+  if (currentWord === "") return;
+  
+  // 唸出螢幕上的字
+  speak(currentWord, 1.0);
+}
+
+// 發音工具
+function speak(text, rate) {
   window.speechSynthesis.cancel();
-  const m = new SpeechSynthesisUtterance(txt);
+  const m = new SpeechSynthesisUtterance(text);
   m.lang = "en-US";
+  m.rate = rate || 1.0; // 語速
   window.speechSynthesis.speak(m);
 }
 
-function startReview() {
-  isGame = false;
-  msgDiv.innerText = "點擊卡片聽發音 🔊";
-  msgDiv.style.color = "#333";
-  render();
-  speak("Study Mode");
+// --- 互動功能：聽音拼字挑戰 ---
+
+const words = ["cat", "dog", "pig", "bat", "red", "bus", "sun", "hat", "egg", "box"];
+
+function startChallenge() {
+  challengeMode = true;
+  currentWord = "";
+  updateScreen();
+  
+  // 隨機選一個字
+  challengeAnswer = words[Math.floor(Math.random() * words.length)];
+  
+  msg.innerText = "聽到了什麼字？請拼出來！";
+  speak("Spell the word... " + challengeAnswer);
 }
 
-function startGame() {
-  isGame = true;
-  score = 0;
-  scoreDiv.innerText = score;
-  msgDiv.innerText = "遊戲開始！加油！";
-  render();
-  setTimeout(nextQ, 1000);
+function checkSpelling() {
+  if (currentWord.toLowerCase() === challengeAnswer) {
+    msg.innerText = "答對了！太棒了！🎉";
+    msg.style.color = "green";
+    speak("Correct! " + challengeAnswer);
+    challengeMode = false; // 結束這回合
+  } else if (currentWord.length >= challengeAnswer.length) {
+    // 如果拼錯但長度到了，提示一下
+    msg.innerText = "不對喔，再聽一次！";
+    msg.style.color = "red";
+    speak("Try again. " + challengeAnswer);
+    currentWord = ""; // 清空讓他重拼
+    setTimeout(updateScreen, 1000);
+  }
 }
-
-function nextQ() {
-  target = data[Math.floor(Math.random() * data.length)];
-  msgDiv.innerText = "請找出: " + target.text + " ❓";
-  msgDiv.style.color = "#d32f2f";
-  speak("Find " + target.text);
-}
-
-function render() {
-  const area = document.getElementById("game-area");
-  area.innerHTML = "";
-  data.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `<span style='font-size:40px;'>${item.icon}</span><br><b>${item.text}</b>`;
-    card.onclick = () => {
-      if (!isGame) {
-        speak(item.text);
-        card.style.background = "#e8f5e9";
-        setTimeout(()=>card.style.background="white", 200);
-      } else {
-        if (item.text === target.text) {
-          score += 10;
-          scoreDiv.innerText = score;
-          msgDiv.innerText = "答對了！🎉";
-          msgDiv.style.color = "green";
-          speak("Good job!");
-          setTimeout(nextQ, 1500);
-        } else {
-          speak("Try again");
-          card.style.background = "#ffebee";
-          setTimeout(()=>card.style.background="white", 200);
-        }
-      }
-    };
-    area.appendChild(card);
-  });
-}
-// 啟動程式
-startReview();
