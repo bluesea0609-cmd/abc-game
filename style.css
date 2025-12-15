@@ -2,83 +2,52 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f0f4c3;
   text-align: center;
-  margin: 0;
-  padding: 10px;
+  margin: 0; padding: 10px;
   user-select: none;
 }
-h1 { color: #558b2f; margin: 10px 0; font-size: 24px; }
 
-.screen-box {
-  background: white;
-  margin: 10px auto;
-  padding: 10px;
-  border-radius: 15px;
-  border: 4px solid #8bc34a;
-  min-height: 80px; /* 拉高一點 */
+/* --- 新增：進入畫面樣式 --- */
+#start-screen {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(135deg, #43a047, #8bc34a); /* 漂亮漸層綠 */
   display: flex;
-  flex-direction: column; /* 讓字由上往下排 */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.word-display {
-  font-size: 40px;
-  font-weight: bold;
-  color: #333;
-  letter-spacing: 2px;
-  line-height: 1.2;
-}
-
-/* 音標的樣式 */
-.ipa-display {
-  font-size: 20px;
-  color: #888; /* 灰色 */
-  font-family: "Lucida Sans Unicode", sans-serif;
-  min-height: 25px;
-  margin-top: 5px;
-}
-
-.action-area {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-button {
-  border: none;
-  border-radius: 50px;
-  padding: 10px 20px;
-  font-size: 18px;
-  cursor: pointer;
+  z-index: 999;
   color: white;
-  box-shadow: 0 4px 0 rgba(0,0,0,0.2);
 }
-button:active { transform: translateY(4px); box-shadow: none; }
+#start-screen h1 { font-size: 40px; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); color: white;}
+#start-screen p { font-size: 20px; margin-bottom: 50px; opacity: 0.9; }
 
+.btn-start {
+  background: white; color: #2e7d32;
+  font-size: 28px; padding: 15px 50px;
+  border-radius: 50px; border: 4px solid #fff;
+  font-weight: bold;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+.btn-start:active { transform: scale(0.95); box-shadow: 0 5px 10px rgba(0,0,0,0.2); }
+
+/* --- 以下是原本的樣式 --- */
+h1 { color: #558b2f; margin: 10px 0; font-size: 24px; }
+.screen-box {
+  background: white; margin: 10px auto; padding: 10px;
+  border-radius: 15px; border: 4px solid #8bc34a;
+  min-height: 80px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.word-display { font-size: 40px; font-weight: bold; color: #333; letter-spacing: 2px; line-height: 1.2; }
+.ipa-display { font-size: 20px; color: #888; font-family: sans-serif; min-height: 25px; margin-top: 5px; }
+.action-area { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
+button { border: none; border-radius: 50px; padding: 10px 20px; font-size: 18px; color: white; box-shadow: 0 4px 0 rgba(0,0,0,0.2); }
+button:active { transform: translateY(4px); box-shadow: none; }
 .btn-play { background: #2196f3; width: 60%; }
 .btn-clear { background: #f44336; }
-.btn-challenge { background: #ff9800; width: 100%; font-weight: bold;}
-
+.btn-challenge { background: #ff9800; width: 100%; font-weight: bold; }
 #message { height: 24px; color: #ff5722; font-weight: bold; margin-bottom: 5px; }
-
-#keyboard {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.key {
-  background: white;
-  color: #555;
-  font-size: 24px;
-  font-weight: bold;
-  padding: 15px 0;
-  border-radius: 10px;
-  border-bottom: 4px solid #ccc;
-  cursor: pointer;
-}
+#keyboard { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; max-width: 500px; margin: 0 auto; }
+.key { background: white; color: #555; font-size: 24px; font-weight: bold; padding: 15px 0; border-radius: 10px; border-bottom: 4px solid #ccc; }
 .key:active { background: #e1f5fe; border-bottom: 0; transform: translateY(4px); }
