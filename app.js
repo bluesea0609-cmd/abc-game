@@ -1,5 +1,6 @@
 const display = document.getElementById("display-word");
 const ipaDisplay = document.getElementById("display-ipa");
+const sentDisplay = document.getElementById("display-sentence");
 const keyboard = document.getElementById("keyboard");
 const msg = document.getElementById("message");
 
@@ -11,24 +12,52 @@ let challengeAnswer = "";
 function enterApp() {
   document.getElementById("start-screen").style.display = "none";
   document.getElementById("main-app").style.display = "block";
-  speak("", 1.0); // 喚醒聲音
+  speak("", 1.0); 
 }
 
-// --- 📖 字典 ---
+// --- 📖 超級字典 (含音標與例句) ---
+// 你可以在這裡自由增加字和句子！
 const dictionary = {
-  "apple": "[ˋæpl]", "apply": "[əˋplaɪ]", "ant": "[ænt]",
-  "ball": "[bɔl]", "bat": "[bæt]", "bus": "[bʌs]", "box": "[bɑks]",
-  "cat": "[kæt]", "cut": "[kʌt]", "car": "[kɑr]", "cup": "[kʌp]",
-  "dog": "[dɔg]", "dad": "[dæd]", "egg": "[ɛg]", "eye": "[aɪ]",
-  "fish": "[fɪʃ]", "fan": "[fæn]", "goat": "[got]",
-  "hat": "[hæt]", "hot": "[hɑt]", "ice": "[aɪs]", "jam": "[dʒæm]",
-  "kite": "[kaɪt]", "lion": "[ˋlaɪən]", "mom": "[mɑm]", "map": "[mæp]",
-  "net": "[nɛt]", "pig": "[pɪg]", "pen": "[pɛn]",
-  "red": "[rɛd]", "run": "[rʌn]", "sun": "[sʌn]", "six": "[sɪks]",
-  "top": "[tɑp]", "ten": "[tɛn]", "van": "[væn]", "zoo": "[zu]"
+  "apple": { ipa: "[ˋæpl]", sent: "I like to eat apples." },
+  "apply": { ipa: "[əˋplaɪ]", sent: "Please apply for the job." },
+  "ant":   { ipa: "[ænt]", sent: "The ant is small." },
+  "ball":  { ipa: "[bɔl]", sent: "He kicks the ball." },
+  "bat":   { ipa: "[bæt]", sent: "I saw a bat flying." },
+  "bus":   { ipa: "[bʌs]", sent: "The bus is coming." },
+  "box":   { ipa: "[bɑks]", sent: "Open the box." },
+  "cat":   { ipa: "[kæt]", sent: "The cat is cute." },
+  "cut":   { ipa: "[kʌt]", sent: "Do not cut your finger." },
+  "car":   { ipa: "[kɑr]", sent: "My dad has a red car." },
+  "cup":   { ipa: "[kʌp]", sent: "A cup of tea." },
+  "dog":   { ipa: "[dɔg]", sent: "The dog barks loudly." },
+  "dad":   { ipa: "[dæd]", sent: "I love my dad." },
+  "egg":   { ipa: "[ɛg]", sent: "I eat an egg for breakfast." },
+  "eye":   { ipa: "[aɪ]", sent: "Close your eyes." },
+  "fish":  { ipa: "[fɪʃ]", sent: "Fish swim in the water." },
+  "fan":   { ipa: "[fæn]", sent: "Turn on the fan." },
+  "goat":  { ipa: "[got]", sent: "The goat eats grass." },
+  "hat":   { ipa: "[hæt]", sent: "He wears a hat." },
+  "hot":   { ipa: "[hɑt]", sent: "The soup is hot." },
+  "ice":   { ipa: "[aɪs]", sent: "Ice is cold." },
+  "jam":   { ipa: "[dʒæm]", sent: "I like strawberry jam." },
+  "kite":  { ipa: "[kaɪt]", sent: "Fly a kite in the sky." },
+  "lion":  { ipa: "[ˋlaɪən]", sent: "The lion is the king." },
+  "mom":   { ipa: "[mɑm]", sent: "Mom helps me." },
+  "map":   { ipa: "[mæp]", sent: "Look at the map." },
+  "net":   { ipa: "[nɛt]", sent: "Catch fish with a net." },
+  "pig":   { ipa: "[pɪg]", sent: "The pig is pink." },
+  "pen":   { ipa: "[pɛn]", sent: "I write with a pen." },
+  "red":   { ipa: "[rɛd]", sent: "The apple is red." },
+  "run":   { ipa: "[rʌn]", sent: "Run fast!" },
+  "sun":   { ipa: "[sʌn]", sent: "The sun is hot." },
+  "six":   { ipa: "[sɪks]", sent: "I am six years old." },
+  "top":   { ipa: "[tɑp]", sent: "The spinning top." },
+  "ten":   { ipa: "[tɛn]", sent: "Count to ten." },
+  "van":   { ipa: "[væn]", sent: "A big blue van." },
+  "zoo":   { ipa: "[zu]", sent: "We go to the zoo." }
 };
 
-const challengeWords = ["cat", "dog", "pig", "bat", "red", "bus", "sun", "hat", "egg", "box", "apple", "fish"];
+const challengeWords = Object.keys(dictionary); // 自動從字典裡抓字當題目
 const letters = "abcdefghijklmnopqrstuvwxyz".split("");
 
 // 1. 產生鍵盤
@@ -47,10 +76,24 @@ function addLetter(char) {
   }
 }
 
+// 2. 更新畫面 (核心邏輯)
 function updateScreen() {
   display.innerText = currentWord === "" ? "_" : currentWord;
   const lowerWord = currentWord.toLowerCase();
-  ipaDisplay.innerText = dictionary[lowerWord] ? dictionary[lowerWord] : "";
+  
+  // 查字典
+  const entry = dictionary[lowerWord];
+  
+  if (entry) {
+    // 找到了！顯示音標和例句
+    ipaDisplay.innerText = entry.ipa;
+    sentDisplay.innerText = entry.sent;
+  } else {
+    // 沒找到，清空
+    ipaDisplay.innerText = "";
+    sentDisplay.innerText = "";
+  }
+  
   if (challengeMode) checkSpelling();
 }
 
@@ -61,9 +104,20 @@ function clearWord() {
   updateScreen();
 }
 
+// 3. 唸出單字 + 例句
 function speakWord() {
   if (currentWord === "") return;
-  speak(currentWord, 1.0);
+  
+  const lowerWord = currentWord.toLowerCase();
+  const entry = dictionary[lowerWord];
+  
+  if (entry) {
+    // 如果字典有，先唸單字，再唸例句
+    speak(currentWord + ". " + entry.sent, 0.9);
+  } else {
+    // 字典沒有，只唸單字
+    speak(currentWord, 1.0);
+  }
 }
 
 function speak(text, rate) {
@@ -87,8 +141,17 @@ function checkSpelling() {
   if (currentWord.toLowerCase() === challengeAnswer) {
     msg.innerText = "答對了！🎉";
     msg.style.color = "green";
-    if(dictionary[challengeAnswer]) ipaDisplay.innerText = dictionary[challengeAnswer];
-    speak("Correct! " + challengeAnswer);
+    
+    // 答對時，強制顯示詳細資訊
+    const entry = dictionary[challengeAnswer];
+    if(entry) {
+        ipaDisplay.innerText = entry.ipa;
+        sentDisplay.innerText = entry.sent;
+        speak("Correct! " + challengeAnswer + ". " + entry.sent); // 答對也唸例句加深印象
+    } else {
+        speak("Correct! " + challengeAnswer);
+    }
+    
     challengeMode = false;
   } else if (currentWord.length >= challengeAnswer.length) {
     msg.innerText = "不對喔，再聽一次！";
