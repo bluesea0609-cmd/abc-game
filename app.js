@@ -2,7 +2,7 @@
 const display = document.getElementById("display-word");
 const ipaDisplay = document.getElementById("display-ipa");
 const sentEnDisplay = document.getElementById("display-sentence");
-// 新增：抓取顯示例句音標的元素 (請確保你的 HTML 有 <div id="display-sent-ipa"></div>)
+// 抓取顯示例句音標的元素 (若 HTML 沒這行也不會報錯)
 const sentIpaDisplay = document.getElementById("display-sent-ipa") || { innerText: "" }; 
 const sentZnDisplay = document.getElementById("display-sent-zn");
 const keyboard = document.getElementById("keyboard");
@@ -25,9 +25,12 @@ window.enterApp = function() {
   speak("", 1.0);
 }
 
-// --- 字典資料庫 (完整版：含 IPA, 例句, 例句音標, 中文) ---
-const dictPart1 = {
-  // 3字母
+// --- 2. 完整字典資料庫 (修復 High, In, Morning 等缺字問題) ---
+const dictionary = {
+  // === Level 1 (2-3 letters) ===
+  "in": { ipa: "[ɪn]", sent: "In the box.", sent_ipa: "[ɪn ðə bɑks]", zn: "在...裡面。" },
+  "on": { ipa: "[ɑn]", sent: "On the table.", sent_ipa: "[ɑn ðə ˈteɪbl]", zn: "在...上面。" },
+  "at": { ipa: "[æt]", sent: "At home.", sent_ipa: "[æt hoʊm]", zn: "在...地點。" },
   "cat": { ipa: "[kæt]", sent: "Cute cat.", sent_ipa: "[kjut kæt]", zn: "可愛的貓。" },
   "dog": { ipa: "[dɔg]", sent: "Good dog.", sent_ipa: "[gʊd dɔg]", zn: "好狗。" },
   "ant": { ipa: "[ænt]", sent: "Small ant.", sent_ipa: "[smɔl ænt]", zn: "小螞蟻。" },
@@ -43,7 +46,8 @@ const dictPart1 = {
   "ten": { ipa: "[tɛn]", sent: "Number ten.", sent_ipa: "[ˈnʌmbɚ tɛn]", zn: "數字十。" },
   "zoo": { ipa: "[zu]", sent: "Go to zoo.", sent_ipa: "[goʊ tu zu]", zn: "去動物園。" },
 
-  // 4字母
+  // === Level 2 (4 letters) ===
+  "high": { ipa: "[haɪ]", sent: "The kite is high.", sent_ipa: "[ðə kaɪt ɪz haɪ]", zn: "風箏飛得很高。" },
   "book": { ipa: "[bʊk]", sent: "Read a book.", sent_ipa: "[rid ə bʊk]", zn: "讀書。" },
   "bird": { ipa: "[bɝd]", sent: "Flying bird.", sent_ipa: "[ˈflaɪɪŋ bɝd]", zn: "飛鳥。" },
   "ball": { ipa: "[bɔl]", sent: "Kick ball.", sent_ipa: "[kɪk bɔl]", zn: "踢球。" },
@@ -52,7 +56,6 @@ const dictPart1 = {
   "frog": { ipa: "[frɑg]", sent: "Jump frog.", sent_ipa: "[dʒʌmp frɑg]", zn: "跳跳蛙。" },
   "goat": { ipa: "[got]", sent: "A goat.", sent_ipa: "[ə goʊt]", zn: "一隻山羊。" },
   "good": { ipa: "[gʊd]", sent: "Good job.", sent_ipa: "[gʊd dʒɑb]", zn: "做得好。" },
-  "high": { ipa: "[haɪ]", sent: "The kite is high.", sent_ipa: "[ðə kaɪt ɪz haɪ]", zn: "風箏飛得很高。" },
   "home": { ipa: "[hom]", sent: "Go home.", sent_ipa: "[goʊ hoʊm]", zn: "回家。" },
   "kite": { ipa: "[kaɪt]", sent: "Fly a kite.", sent_ipa: "[flaɪ ə kaɪt]", zn: "放風箏。" },
   "lion": { ipa: "[ˈlaɪən]", sent: "Big lion.", sent_ipa: "[bɪg ˈlaɪən]", zn: "大獅子。" },
@@ -61,34 +64,29 @@ const dictPart1 = {
   "moon": { ipa: "[mun]", sent: "Full moon.", sent_ipa: "[fʊl mun]", zn: "滿月。" },
   "nose": { ipa: "[noz]", sent: "My nose.", sent_ipa: "[maɪ noʊz]", zn: "我的鼻子。" },
   
-  // 5+字母
-  "apple": { ipa: "[ˋæpl]", sent: "Red apple.", sent_ipa: "[rɛd ˈæpl]", zn: "紅蘋果。" },
-  "happy": { ipa: "[ˋhæpɪ]", sent: "I am happy.", sent_ipa: "[aɪ æm ˈhæpi]", zn: "很開心。" },
+  // === Level 3 (5+ letters) ===
+  "morning": { ipa: "[ˈmɔrnɪŋ]", sent: "Good morning.", sent_ipa: "[gʊd ˈmɔrnɪŋ]", zn: "早安。" },
+  "apple": { ipa: "[ˈæpl]", sent: "Red apple.", sent_ipa: "[rɛd ˈæpl]", zn: "紅蘋果。" },
+  "happy": { ipa: "[ˈhæpi]", sent: "I am happy.", sent_ipa: "[aɪ æm ˈhæpi]", zn: "很開心。" },
   "house": { ipa: "[haʊs]", sent: "Big house.", sent_ipa: "[bɪg haʊs]", zn: "大房子。" },
-  "mouse": { ipa: "[maʊs]", sent: "Small mouse.", sent_ipa: "[smɔl maʊs]", zn: "小老鼠。" }
-};
-
-const dictPart2 = {
+  "mouse": { ipa: "[maʊs]", sent: "Small mouse.", sent_ipa: "[smɔl maʊs]", zn: "小老鼠。" },
   "nurse": { ipa: "[nɝs]", sent: "A nurse.", sent_ipa: "[ə nɝs]", zn: "護士。" },
-  "orange": { ipa: "[ˋɔrɪndʒ]", sent: "Sweet orange.", sent_ipa: "[swit ˈɔrɪndʒ]", zn: "甜柳橙。" },
-  "panda": { ipa: "[ˋpændə]", sent: "Cute panda.", sent_ipa: "[kjut ˈpændə]", zn: "可愛貓熊。" },
+  "orange": { ipa: "[ˈɔrɪndʒ]", sent: "Sweet orange.", sent_ipa: "[swit ˈɔrɪndʒ]", zn: "甜柳橙。" },
+  "panda": { ipa: "[ˈpændə]", sent: "Cute panda.", sent_ipa: "[kjut ˈpændə]", zn: "可愛貓熊。" },
   "queen": { ipa: "[kwin]", sent: "The queen.", sent_ipa: "[ðə kwin]", zn: "女王。" },
-  "rabbit": { ipa: "[ˋræbɪt]", sent: "Cute rabbit.", sent_ipa: "[kjut ˈræbɪt]", zn: "可愛兔子。" },
+  "rabbit": { ipa: "[ˈræbɪt]", sent: "Cute rabbit.", sent_ipa: "[kjut ˈræbɪt]", zn: "可愛兔子。" },
   "school": { ipa: "[skul]", sent: "Go to school.", sent_ipa: "[goʊ tu skul]", zn: "去學校。" },
-  "tiger": { ipa: "[ˋtaɪgɚ]", sent: "Scary tiger.", sent_ipa: "[ˈskɛri ˈtaɪgɚ]", zn: "可怕老虎。" },
+  "tiger": { ipa: "[ˈtaɪgɚ]", sent: "Scary tiger.", sent_ipa: "[ˈskɛri ˈtaɪgɚ]", zn: "可怕老虎。" },
   "water": { ipa: "[ˈwɔtɚ]", sent: "Drink water.", sent_ipa: "[drɪŋk ˈwɔtɚ]", zn: "喝水。" },
   "watch": { ipa: "[wɑtʃ]", sent: "My watch.", sent_ipa: "[maɪ wɑtʃ]", zn: "手錶。" },
   "zebra": { ipa: "[ˈzibrə]", sent: "A zebra.", sent_ipa: "[ə ˈzibrə]", zn: "斑馬。" },
 
-  // 特殊句子關卡
+  // === Level 4 (Sentences / Phrases) ===
   "i love you": { ipa: "[aɪ lʌv ju]", sent: "I love you very much.", sent_ipa: "[aɪ lʌv ju ˈvɛri mʌtʃ]", zn: "我非常愛你。" },
   "thank you": { ipa: "[θæŋk ju]", sent: "You are welcome.", sent_ipa: "[ju ɑr ˈwɛlkəm]", zn: "不客氣。" },
   "how are you": { ipa: "[haʊ ɑr ju]", sent: "I am fine.", sent_ipa: "[aɪ æm faɪn]", zn: "你好嗎？" },
   "good morning": { ipa: "[gʊd ˈmɔrnɪŋ]", sent: "Have a nice day.", sent_ipa: "[hæv ə naɪs deɪ]", zn: "早安。" }
 };
-
-// 合併字典
-const dictionary = Object.assign({}, dictPart1, dictPart2);
 
 // 初始化
 loadProgress();
@@ -139,6 +137,9 @@ function nextQuestion() {
   else if (currentLevel === 4) pool = keys.filter(k => k.includes(" "));
   else pool = keys;
   
+  // 安全檢查：如果該等級沒有字，就退回全部
+  if (pool.length === 0) pool = keys;
+
   targetWord = pool[Math.floor(Math.random() * pool.length)];
   msg.innerText = "請聽音拼字...";
   msg.style.color = "#333";
@@ -155,7 +156,7 @@ window.checkAnswer = function() {
     const entry = dictionary[targetWord];
     if (entry) {
       if(sentEnDisplay) sentEnDisplay.innerText = entry.sent;
-      if(sentIpaDisplay) sentIpaDisplay.innerText = entry.sent_ipa || ""; // 顯示例句音標
+      if(sentIpaDisplay) sentIpaDisplay.innerText = entry.sent_ipa || ""; 
       if(sentZnDisplay) sentZnDisplay.innerText = entry.zn;
       speak("Correct! " + targetWord + ". " + entry.sent);
     }
@@ -212,15 +213,15 @@ function addLetter(char) {
 
 function updateScreen() {
   if (display) display.innerText = currentWord === "" ? "_" : currentWord;
+  // 顯示詳細資料 (包含自由模式與答對時)
   if (!gameActive) {
     const lower = currentWord.toLowerCase().trim();
     const entry = dictionary[lower];
     if (entry) {
-       ipaDisplay.innerText = entry.ipa;
-       sentEnDisplay.innerText = entry.sent;
-       // 這裡更新例句音標
+       ipaDisplay.innerText = entry.ipa || "";
+       sentEnDisplay.innerText = entry.sent || "";
        if(sentIpaDisplay) sentIpaDisplay.innerText = entry.sent_ipa || ""; 
-       sentZnDisplay.innerText = entry.zn;
+       sentZnDisplay.innerText = entry.zn || "";
     } else {
        ipaDisplay.innerText = "";
        sentEnDisplay.innerText = "";
@@ -228,6 +229,7 @@ function updateScreen() {
        sentZnDisplay.innerText = "";
     }
   } else {
+     // 遊戲進行中不顯示提示
      ipaDisplay.innerText = ""; 
      sentEnDisplay.innerText = ""; 
      if(sentIpaDisplay) sentIpaDisplay.innerText = "";
@@ -275,4 +277,3 @@ function updateLevelButtons() {
   }
 }
 window.resetProgress = function() { if(confirm("確定重置？")) { maxLevelUnlocked=1; saveProgress(); updateLevelButtons(); }}
-
