@@ -1,4 +1,3 @@
-
 // --- 1. 變數設定與 DOM 抓取 ---
 const display = document.getElementById("display-word");
 const ipaDisplay = document.getElementById("display-ipa");
@@ -28,7 +27,7 @@ window.enterApp = function() {
 
 // --- 2. 完整字典資料庫 (上半部 A-M) ---
 const dictPart1 = {
-  // A - E
+  // A - H
   "apple": { ipa: "[ˈæpl]", sent: "Red apple.", sent_ipa: "[rɛd ˈæpl]", zn: "紅蘋果。" },
   "ant": { ipa: "[ænt]", sent: "Small ant.", sent_ipa: "[smɔl ænt]", zn: "小螞蟻。" },
   "at": { ipa: "[æt]", sent: "At home.", sent_ipa: "[æt hoʊm]", zn: "在...地點。" },
@@ -43,40 +42,43 @@ const dictPart1 = {
   "duck": { ipa: "[dʌk]", sent: "Yellow duck.", sent_ipa: "[ˈjɛloʊ dʌk]", zn: "黃色小鴨。" },
   "fish": { ipa: "[fɪʃ]", sent: "Fish swim.", sent_ipa: "[fɪʃ swɪm]", zn: "魚游泳。" },
   "frog": { ipa: "[frɑg]", sent: "Jump frog.", sent_ipa: "[dʒʌmp frɑg]", zn: "跳跳蛙。" },
-  
-  // G - M (包含之前缺失的 High, In, Morning)
   "goat": { ipa: "[got]", sent: "A goat.", sent_ipa: "[ə goʊt]", zn: "一隻山羊。" },
   "good": { ipa: "[gʊd]", sent: "Good job.", sent_ipa: "[gʊd dʒɑb]", zn: "做得好。" },
   "happy": { ipa: "[ˈhæpi]", sent: "I am happy.", sent_ipa: "[aɪ æm ˈhæpi]", zn: "很開心。" },
-  "high": { ipa: "[haɪ]", sent: "The kite is high.", sent_ipa: "[ðə kaɪt ɪz haɪ]", zn: "風箏飛得很高。" },
+  "high": { ipa: "[haɪ]", sent: "The kite is high.", sent_ipa: "[ðə kaɪt ɪz haɪ]", zn: "風箏飛得很高。" }, 
   "home": { ipa: "[hom]", sent: "Go home.", sent_ipa: "[goʊ hoʊm]", zn: "回家。" },
   "house": { ipa: "[haʊs]", sent: "Big house.", sent_ipa: "[bɪg haʊs]", zn: "大房子。" },
-  "in": { ipa: "[ɪn]", sent: "In the box.", sent_ipa: "[ɪn ðə bɑks]", zn: "在...裡面。" },
+  
+  // I - M
+  "in": { ipa: "[ɪn]", sent: "In the box.", sent_ipa: "[ɪn ðə bɑks]", zn: "在...裡面。" }, 
   "kite": { ipa: "[kaɪt]", sent: "Fly a kite.", sent_ipa: "[flaɪ ə kaɪt]", zn: "放風箏。" },
   "lion": { ipa: "[ˈlaɪən]", sent: "Big lion.", sent_ipa: "[bɪg ˈlaɪən]", zn: "大獅子。" },
   "love": { ipa: "[lʌv]", sent: "I love you.", sent_ipa: "[aɪ lʌv ju]", zn: "我愛你。" },
   "milk": { ipa: "[mɪlk]", sent: "Drink milk.", sent_ipa: "[drɪŋk mɪlk]", zn: "喝牛奶。" },
   "mom": { ipa: "[mɑm]", sent: "Hi mom.", sent_ipa: "[haɪ mɑm]", zn: "嗨媽媽。" },
   "moon": { ipa: "[mun]", sent: "Full moon.", sent_ipa: "[fʊl mun]", zn: "滿月。" },
-  "morning": { ipa: "[ˈmɔrnɪŋ]", sent: "Good morning.", sent_ipa: "[gʊd ˈmɔrnɪŋ]", zn: "早安。" },
+  "morning": { ipa: "[ˈmɔrnɪŋ]", sent: "Good morning.", sent_ipa: "[gʊd ˈmɔrnɪŋ]", zn: "早安。" }, 
   "mouse": { ipa: "[maʊs]", sent: "Small mouse.", sent_ipa: "[smɔl maʊs]", zn: "小老鼠。" }
 };
+
 // --- 3. 完整字典資料庫 (下半部 N-Z) ---
 const dictPart2 = {
-  // N - Z (包含 Open, Please, Quick)
+  // N - Z
   "nose": { ipa: "[noz]", sent: "My nose.", sent_ipa: "[maɪ noʊz]", zn: "我的鼻子。" },
   "nurse": { ipa: "[nɝs]", sent: "A nurse.", sent_ipa: "[ə nɝs]", zn: "護士。" },
+  "october": { ipa: "[ɑkˈtoʊbɚ]", sent: "It is October.", sent_ipa: "[ɪt ɪz ɑkˈtoʊbɚ]", zn: "十月。" }, 
   "on": { ipa: "[ɑn]", sent: "On the table.", sent_ipa: "[ɑn ðə ˈteɪbl]", zn: "在...上面。" },
-  "open": { ipa: "[ˈoʊpən]", sent: "Open the door.", sent_ipa: "[ˈoʊpən ðə dɔr]", zn: "打開。" },
+  "open": { ipa: "[ˈoʊpən]", sent: "Open the door.", sent_ipa: "[ˈoʊpən ðə dɔr]", zn: "打開。" }, 
   "orange": { ipa: "[ˈɔrɪndʒ]", sent: "Sweet orange.", sent_ipa: "[swit ˈɔrɪndʒ]", zn: "甜柳橙。" },
   "panda": { ipa: "[ˈpændə]", sent: "Cute panda.", sent_ipa: "[kjut ˈpændə]", zn: "可愛貓熊。" },
   "pen": { ipa: "[pɛn]", sent: "Blue pen.", sent_ipa: "[blu pɛn]", zn: "藍筆。" },
   "pig": { ipa: "[pɪg]", sent: "Pink pig.", sent_ipa: "[pɪŋk pɪg]", zn: "粉紅豬。" },
-  "please": { ipa: "[pliz]", sent: "Please help.", sent_ipa: "[pliz hɛlp]", zn: "請。" },
+  "please": { ipa: "[pliz]", sent: "Please help.", sent_ipa: "[pliz hɛlp]", zn: "請。" }, 
   "queen": { ipa: "[kwin]", sent: "The queen.", sent_ipa: "[ðə kwin]", zn: "女王。" },
-  "quick": { ipa: "[kwɪk]", sent: "Be quick.", sent_ipa: "[bi kwɪk]", zn: "快一點。" },
+  "quick": { ipa: "[kwɪk]", sent: "Be quick.", sent_ipa: "[bi kwɪk]", zn: "快一點。" }, 
   "rabbit": { ipa: "[ˈræbɪt]", sent: "Cute rabbit.", sent_ipa: "[kjut ˈræbɪt]", zn: "可愛兔子。" },
   "red": { ipa: "[rɛd]", sent: "Red color.", sent_ipa: "[rɛd ˈkʌlɚ]", zn: "紅色。" },
+  "right": { ipa: "[raɪt]", sent: "Turn right.", sent_ipa: "[tɝn raɪt]", zn: "右邊/正確。" }, 
   "run": { ipa: "[rʌn]", sent: "Run fast.", sent_ipa: "[rʌn fæst]", zn: "跑快點。" },
   "school": { ipa: "[skul]", sent: "Go to school.", sent_ipa: "[goʊ tu skul]", zn: "去學校。" },
   "sun": { ipa: "[sʌn]", sent: "Hot sun.", sent_ipa: "[hɑt sʌn]", zn: "烈日。" },
@@ -100,7 +102,6 @@ const dictionary = Object.assign({}, dictPart1, dictPart2);
 // 初始化
 loadProgress();
 updateLevelButtons();
-
 // --- 4. 功能函數 ---
 
 window.startGame = function(level) {
@@ -285,4 +286,3 @@ function updateLevelButtons() {
   }
 }
 window.resetProgress = function() { if(confirm("確定重置？")) { maxLevelUnlocked=1; saveProgress(); updateLevelButtons(); }}
-                
