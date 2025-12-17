@@ -53,13 +53,7 @@ const dictPart1 = {
   "in": { ipa: "[ɪn]", sent: "In the box.", sent_ipa: "[ɪn ðə bɑks]", zn: "在...裡面。" }, 
   "kite": { ipa: "[kaɪt]", sent: "Fly a kite.", sent_ipa: "[flaɪ ə kaɪt]", zn: "放風箏。" },
   "lion": { ipa: "[ˈlaɪən]", sent: "Big lion.", sent_ipa: "[bɪg ˈlaɪən]", zn: "大獅子。" },
-  "love": { ipa: "[lʌv]", sent: "I love you.", sent_ipa: "[aɪ lʌv ju]", zn: "我愛你。" },
-  "milk": { ipa: "[mɪlk]", sent: "Drink milk.", sent_ipa: "[drɪŋk mɪlk]", zn: "喝牛奶。" },
-  "mom": { ipa: "[mɑm]", sent: "Hi mom.", sent_ipa: "[haɪ mɑm]", zn: "嗨媽媽。" },
-  "moon": { ipa: "[mun]", sent: "Full moon.", sent_ipa: "[fʊl mun]", zn: "滿月。" },
-  "morning": { ipa: "[ˈmɔrnɪŋ]", sent: "Good morning.", sent_ipa: "[gʊd ˈmɔrnɪŋ]", zn: "早安。" }, 
-  "mouse": { ipa: "[maʊs]", sent: "Small mouse.", sent_ipa: "[smɔl maʊs]", zn: "小老鼠。" }
-};
+  "love": { ipa: "[lʌv]", sent
 // --- 3. 完整字典資料庫 (下半部 N-Z) ---
 const dictPart2 = {
   // N - Z
@@ -83,8 +77,10 @@ const dictPart2 = {
   "sun": { ipa: "[sʌn]", sent: "Hot sun.", sent_ipa: "[hɑt sʌn]", zn: "烈日。" },
   "ten": { ipa: "[tɛn]", sent: "Number ten.", sent_ipa: "[ˈnʌmbɚ tɛn]", zn: "數字十。" },
   "tiger": { ipa: "[ˈtaɪgɚ]", sent: "Scary tiger.", sent_ipa: "[ˈskɛri ˈtaɪgɚ]", zn: "可怕老虎。" },
+  "very": { ipa: "[ˈvɛri]", sent: "Very good.", sent_ipa: "[ˈvɛri gʊd]", zn: "非常。" }, // 補上 Very
   "watch": { ipa: "[wɑtʃ]", sent: "My watch.", sent_ipa: "[maɪ wɑtʃ]", zn: "手錶。" },
   "water": { ipa: "[ˈwɔtɚ]", sent: "Drink water.", sent_ipa: "[drɪŋk ˈwɔtɚ]", zn: "喝水。" },
+  "will": { ipa: "[wɪl]", sent: "I will go.", sent_ipa: "[aɪ wɪl goʊ]", zn: "將要。" }, // 補上 Will
   "zebra": { ipa: "[ˈzibrə]", sent: "A zebra.", sent_ipa: "[ə ˈzibrə]", zn: "斑馬。" },
   "zoo": { ipa: "[zu]", sent: "Go to zoo.", sent_ipa: "[goʊ tu zu]", zn: "去動物園。" },
 
@@ -285,3 +281,4 @@ function updateLevelButtons() {
   }
 }
 window.resetProgress = function() { if(confirm("確定重置？")) { maxLevelUnlocked=1; saveProgress(); updateLevelButtons(); }}
+
