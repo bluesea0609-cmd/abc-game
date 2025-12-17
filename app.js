@@ -60,7 +60,6 @@ const dictPart1 = {
   "morning": { ipa: "[ˈmɔrnɪŋ]", sent: "Good morning.", sent_ipa: "[gʊd ˈmɔrnɪŋ]", zn: "早安。" }, 
   "mouse": { ipa: "[maʊs]", sent: "Small mouse.", sent_ipa: "[smɔl maʊs]", zn: "小老鼠。" }
 };
-
 // --- 3. 完整字典資料庫 (下半部 N-Z) ---
 const dictPart2 = {
   // N - Z
@@ -286,4 +285,3 @@ function updateLevelButtons() {
   }
 }
 window.resetProgress = function() { if(confirm("確定重置？")) { maxLevelUnlocked=1; saveProgress(); updateLevelButtons(); }}
-w
